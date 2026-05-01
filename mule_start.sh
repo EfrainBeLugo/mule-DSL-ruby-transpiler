@@ -1,7 +1,4 @@
-#!/bin/zsh
-
-# Cargar el PATH del sistema para encontrar ruby y mvn
-#export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+#!/bin/bash
 
 MULE_HOME="${MULE_HOME}"
 MVN_HOME="${MVN_HOME}"
@@ -22,19 +19,16 @@ fi
 
 echo "🚀 Starting transpilation: $projectName"
 
-# 1. Ejecutar Ruby pasando el nombre del proyecto como argumento
-# Modificaremos app.rb para que acepte argumentos
 ruby app.rb "$projectName"
 
-# 2. Entrar al directorio de salida
-cd "output/$projectName" || { echo "Error: Project folder could not be found"; exit 1 }
+if ! cd "output/$projectName"; then
+    echo "Error: Project folder could not be found"
+    exit 1
+fi
 
-# 3. Compilar con Maven (usando la ruta absoluta si es necesario)
 echo "📦 Compiling con Maven..."
 $MVN_HOME/bin/mvn clean package -DskipTests
 
-# 4. Limpiar y Desplegar en el Standalone de Mule
-#MULE_HOME="/Users/efrainbe/Dev/Mulesoft/mule-enterprise-standalone-4.11.3"
 echo "📂 Deploying in Mule Runtime..."
 
 rm -rf "$MULE_HOME/apps/"*
