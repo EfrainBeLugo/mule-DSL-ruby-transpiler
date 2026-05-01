@@ -19,6 +19,7 @@ fi
 
 echo "🚀 Starting transpilation: $projectName"
 
+rm -rf output/*
 ruby app.rb "$projectName"
 
 if ! cd "output/$projectName"; then
