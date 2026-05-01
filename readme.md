@@ -19,7 +19,7 @@ This is an experimental transpiler that allows MuleSoft developers to define int
 ### Prerequisites
 
 - **Ruby 3.2+** (Tested in 4.0.2 using `asdf`)
-- **Apache Maven 3.8+** Set  `MAVEN_HOME` environment variable to the path of your Maven installation.
+- **Apache Maven 3.8+** Set  `MVN_HOME` environment variable to the path of your Maven installation.
 - **Mule Runtime 4.x** (Standalone for local deployment and testing) Need to add `MULE_HOME` environment variable to the path of your Mule installation.
 
 ### First Project
