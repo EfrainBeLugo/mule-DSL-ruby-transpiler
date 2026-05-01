@@ -9,7 +9,7 @@ class MuleDSL
     @used_modules = Set.new
   end
 
-  def mule_app(name, &block)
+  def mule_app(&block)
     instance_eval(&block)
   end
 
