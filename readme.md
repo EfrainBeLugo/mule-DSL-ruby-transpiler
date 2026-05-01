@@ -32,7 +32,7 @@ This is an experimental transpiler that allows MuleSoft developers to define int
 2. Create a new folder `input/` and place your `.mule` files in there. The output mule project will be generated in `output/` following the same structure.
 Here is an example of a `.mule` file:
    ```ruby
-   mule_app "my-fist-project" do
+   mule_app do
    
      http_listener_config "HTTP_Listener_config" do
        http_listener_connection host: "0.0.0.0", port: 8081
@@ -46,7 +46,7 @@ Here is an example of a `.mule` file:
    end
 
 3. Run `./mule_start.sh -p "my-app"` where `my-app` is the name of the project you want to generate.
-4. If you have all ready you should be able to hit `http://localhost:8081/hello` and see the message "Hello World!"
+4. If you have all ready you should be able to do POST `http://localhost:8081/hello` and see the message from the JSON you send.
 
 ### 🗺️ Roadmap / Next Steps
 - [x] Support for automatic project generation.
