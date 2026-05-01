@@ -25,7 +25,13 @@ class MuleDSL
     @used_modules.add('http')
     @used_modules.add('sockets')
     builder = ConfigBuilder.new(name, @xml)
-    builder.process(&block)
+    builder.process("http:listener-config", &block)
+  end
+
+  def http_request_config(name, &block)
+    @used_modules.add('http')
+    builder = ConfigBuilder.new(name, @xml)
+    builder.process("http:request-config", &block)
   end
 
   private

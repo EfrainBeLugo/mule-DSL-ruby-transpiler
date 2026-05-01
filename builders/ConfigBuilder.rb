@@ -5,8 +5,8 @@ class ConfigBuilder
     @xml = xml
   end
 
-  def process(&block)
-    @xml["http"].send("listener-config", "name" => @name) do
+  def process(tag, &block)
+      @xml.send(tag, "name" => @name) do
       instance_eval(&block)
     end
   end
@@ -16,6 +16,15 @@ class ConfigBuilder
         "listener-connection",
         "host" => host,
         "port" => port.to_s
+      )
+  end
+
+  def http_request_connection(host:, port:, protocol: 'HTTPS')
+    @xml['http'].send(
+        "request-connection",
+        "host" => host,
+        "port" => port.to_s,
+        "protocol" => protocol
       )
   end
 end
