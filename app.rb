@@ -19,17 +19,20 @@ class MuleTranspiler
         # Injecting the namespace definitions
         xml.parent.add_namespace_definition("doc", "http://www.mulesoft.org/schema/mule/documentation")
         xml.parent.add_namespace_definition("http", "http://www.mulesoft.org/schema/mule/http")
+        xml.parent.add_namespace_definition("ee", "http://www.mulesoft.org/schema/mule/ee/core")
+        xml.parent.add_namespace_definition("db", "http://www.mulesoft.org/schema/mule/db")
         xml.parent.add_namespace_definition("xsi", "http://www.w3.org/2001/XMLSchema-instance")
 
         # Setting namespace and schemaLocation
         xml.parent["xmlns"] = "http://www.mulesoft.org/schema/mule/core"
-        xml.parent["xsi:schemaLocation"] = "http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd"
+        xml.parent["xsi:schemaLocation"] = "http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd"
 
         # Processing DSL content
         dsl_content = File.read(input_file)
         engine = MuleDSL.new(xml)
         engine.instance_eval(dsl_content)
         @used_modules.concat(engine.used_modules.to_a)
+        @used_modules.uniq!
 
       end
     end

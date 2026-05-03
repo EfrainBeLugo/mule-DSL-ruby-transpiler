@@ -27,4 +27,15 @@ class ConfigBuilder
         "protocol" => protocol
       )
   end
+
+  def db_connection(host:, port: 3306, user:, password:, database:)
+    @xml['db'].send(
+      "my-sql-connection",
+      "host" => host,
+      "port" => port.to_s,
+      "user" => user,
+      "password" => password,
+      "database" => database
+    )
+  end
 end

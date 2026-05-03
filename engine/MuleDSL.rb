@@ -1,4 +1,4 @@
-require_relative '../builders/FlowBuilder'
+# require_relative '../builders/FlowBuilder' -> Moved down to avoid circular dependency
 require_relative '../builders/ConfigBuilder'
 
 class MuleDSL
@@ -33,9 +33,28 @@ class MuleDSL
     builder = ConfigBuilder.new(name, @xml)
     builder.process("http:request-config", &block)
   end
+  
+  def db_config(name, &block)
+    @used_modules.add('db')
+    builder = ConfigBuilder.new(name, @xml)
+    builder.process("db:config", &block)
+  end
+
+  def error_handler(name, &block)
+    if self.is_a?(FlowBuilder)
+      # In FlowBuilder (inline error handler)
+      @xml.send("error-handler") do
+        instance_eval(&block) if block_given?
+      end
+    else
+      # In MuleDSL (global error handler)
+      create_container('error-handler', name, &block)
+    end
+  end
 
   private
   def create_container(tag_name, element_name, &block)
+    require_relative '../builders/FlowBuilder'
     builder = FlowBuilder.new(tag_name, element_name, @xml)
     builder.process(&block)
   end
